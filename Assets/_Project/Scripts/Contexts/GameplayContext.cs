@@ -33,6 +33,7 @@ namespace Pisti
 			mediationBinder.Bind<CardView>().To<CardMediator>();
 			mediationBinder.Bind<PlayerHandView>().To<PlayerHandMediator>();
 			mediationBinder.Bind<BotHandView>().To<BotHandMediator>();
+			mediationBinder.Bind<CardDistributorView>().To<CardDistributorMediator>();
 		}
 
 		private void BindModels()
@@ -42,11 +43,12 @@ namespace Pisti
 
 			injectionBinder.Bind<ICardVisualsModel>().To<CardVisualsModel>().ToSingleton().CrossContext();
 			injectionBinder.Bind<ICard>().To<Card>().ToSingleton().CrossContext();
+			injectionBinder.Bind<IDeckModel>().To<DeckModel>().ToSingleton().CrossContext();
 		}
 
 		private void BindServices()
 		{
-			injectionBinder.Bind<IDeckService>().ToSingleton().CrossContext();
+			injectionBinder.Bind<IDeckService>().To<DeckService>().ToSingleton().CrossContext();
 		}
 
 		private void BindSignalsAndCommands()
@@ -58,6 +60,8 @@ namespace Pisti
 				.To<CreateDeckCommand>()
 				.To<DealCardsAtStartCommand>()
 				.InSequence();
+
+			injectionBinder.Bind<DistributeCardSignal>().ToSingleton();
 		}
 	}
 }

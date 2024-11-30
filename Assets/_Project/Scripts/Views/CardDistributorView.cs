@@ -6,7 +6,7 @@ namespace Pisti
 {
 	public class CardDistributorView : View
 	{
-		[SerializeField] private CardView cardPrefab;
+		[SerializeField] private GameObject cardPrefab;
 		[SerializeField] private Transform playerHand;
 		[SerializeField] private Transform botHand;
 		[SerializeField] private Transform tableCards;
@@ -14,7 +14,11 @@ namespace Pisti
 
 		internal void DistributeCard(Card card, bool isPlayerCard)
 		{
-			CardView cardToDistribute = Instantiate(cardPrefab, deck.transform.position, cardPrefab.transform.rotation);
+			GameObject cardToDistribute = Instantiate(cardPrefab, deck.transform.position, cardPrefab.transform.rotation);
+			cardToDistribute.transform.SetParent(deck);
+			CardView cardToDistributeCardView = cardToDistribute.GetComponent<CardView>();
+			cardToDistributeCardView.InitializeCardView(card);
+			cardToDistributeCardView.MoveToTheHand(isPlayerCard ? playerHand : botHand);
 		}
 	}
 }
