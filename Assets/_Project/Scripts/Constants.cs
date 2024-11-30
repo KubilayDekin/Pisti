@@ -5,6 +5,13 @@ namespace Pisti
 {
 	public static class Constants
 	{
+		#region Gameplay
+
+		public static float cardDistributeDelay = 0.25f;
+		public static float waitBeforeTurnStart = 1f;
+
+		#endregion
+
 		#region Deck
 
 		public static int[] values = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }; // 1 is Ace, 11 is Jack, 12 is Queen, 13 is King

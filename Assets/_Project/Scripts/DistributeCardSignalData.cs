@@ -6,12 +6,19 @@ namespace Pisti
 	public class DistributeCardSignalData
 	{
 		public Card Card { get; set; }
-		public bool IsPlayerCard { get; set; }
+		public CardOwner CardOwner { get; set; }
 
-		public DistributeCardSignalData(Card card, bool isPlayerCard)
+		public DistributeCardSignalData(Card card, CardOwner cardOwner)
 		{
 			Card = card;
-			IsPlayerCard = isPlayerCard;
+			CardOwner = cardOwner;
 		}
+	}
+
+	public enum CardOwner
+	{
+		Player,
+		Bot,
+		Table
 	}
 }

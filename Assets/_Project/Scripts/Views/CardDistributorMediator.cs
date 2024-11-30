@@ -25,7 +25,7 @@ namespace Pisti
 
 		private void DistributeCard(DistributeCardSignalData data)
 		{
-			View.DistributeCard(data.Card, data.IsPlayerCard);
+			View.DistributeCard(data.Card, data.CardOwner);
 		}
 	}
 }

@@ -12,13 +12,29 @@ namespace Pisti
 		[SerializeField] private Transform tableCards;
 		[SerializeField] private Transform deck;
 
-		internal void DistributeCard(Card card, bool isPlayerCard)
+		internal void DistributeCard(Card card, CardOwner cardOwner)
 		{
 			GameObject cardToDistribute = Instantiate(cardPrefab, deck.transform.position, cardPrefab.transform.rotation);
 			cardToDistribute.transform.SetParent(deck);
 			CardView cardToDistributeCardView = cardToDistribute.GetComponent<CardView>();
 			cardToDistributeCardView.InitializeCardView(card);
-			cardToDistributeCardView.MoveToTheHand(isPlayerCard ? playerHand : botHand);
+
+			Transform cardTargetTransform = null;
+
+			switch (cardOwner)
+			{
+				case CardOwner.Player:
+					cardTargetTransform = playerHand;
+					break;
+				case CardOwner.Bot:
+					cardTargetTransform = botHand;
+					break;
+				case CardOwner.Table:
+					cardTargetTransform = tableCards;
+					break;
+			}
+
+			cardToDistributeCardView.MoveToTheHand(cardTargetTransform);
 		}
 	}
 }

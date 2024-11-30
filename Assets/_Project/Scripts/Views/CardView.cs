@@ -36,9 +36,9 @@ namespace Pisti
 			}
 		}
 
-		public void MoveToTheHand(Transform hand)
+		public void MoveToTheHand(Transform targetTransform)
 		{
-			transform.DOMove(hand.position, 0.5f).SetEase(Ease.Linear).OnComplete(() => transform.parent = hand);
+			transform.DOMove(targetTransform.position, 0.5f).SetEase(Ease.Linear).OnComplete(() => transform.parent = targetTransform);
 		}
 	}
 }

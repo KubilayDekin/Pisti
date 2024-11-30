@@ -44,6 +44,7 @@ namespace Pisti
 			injectionBinder.Bind<ICardVisualsModel>().To<CardVisualsModel>().ToSingleton().CrossContext();
 			injectionBinder.Bind<ICard>().To<Card>().ToSingleton().CrossContext();
 			injectionBinder.Bind<IDeckModel>().To<DeckModel>().ToSingleton().CrossContext();
+			injectionBinder.Bind<IGameStateModel>().To<GameStateModel>().ToSingleton().CrossContext();
 		}
 
 		private void BindServices()
@@ -62,6 +63,7 @@ namespace Pisti
 				.InSequence();
 
 			injectionBinder.Bind<DistributeCardSignal>().ToSingleton();
+			injectionBinder.Bind<ChangeGameStateSignal>().ToSingleton();
 		}
 	}
 }
