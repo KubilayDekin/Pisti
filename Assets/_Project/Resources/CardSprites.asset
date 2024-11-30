@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7dffc5fdcb4bd64ab6887f59b948cb3, type: 3}
+  m_Name: CardSprites
+  m_EditorClassIdentifier: 
+  SpadesSprite: {fileID: 21300000, guid: 11b331a1482679b49b39a8c626e0b567, type: 3}
+  HeartsSprite: {fileID: 21300000, guid: 9e50e0283eda58147bac8925c2d79e14, type: 3}
+  DiamondsSprite: {fileID: 21300000, guid: eddbaf7bb17c47b49ac7405b3245d5ca, type: 3}
+  ClubsSprite: {fileID: 21300000, guid: 44f50e6b5c7f64b43ba80842f32081f6, type: 3}
+  SpadesJackSprite: {fileID: 21300000, guid: 370511144cf148146973c9501b58fa3f, type: 3}
+  HeartsJackSprite: {fileID: 21300000, guid: a23697639579b3548b0417bf36eb4a46, type: 3}
+  DiamondsJackSprite: {fileID: 21300000, guid: 49b7093685f1ef8489c1dddcbb8df7b6, type: 3}
+  ClubsJackSprite: {fileID: 21300000, guid: 1f923fb86b8a42542a4edba7eb5a7350, type: 3}
+  SpadesQueenSprite: {fileID: 21300000, guid: 651690ca77a0ad7419e881d3ec11fd07, type: 3}
+  HeartsQueenSprite: {fileID: 21300000, guid: 9bb17c66e6fbbac47b45e392fb1d44f1, type: 3}
+  DiamondsQueenSprite: {fileID: 21300000, guid: 4616fe595502f764abe5663cf309fdb7, type: 3}
+  ClubsQueenSprite: {fileID: 21300000, guid: 2cccf70134482b240be03da25ac4634d, type: 3}
+  SpadesKingSprite: {fileID: 21300000, guid: 2c15a0fcdb053594e987bce659fa46ad, type: 3}
+  HeartsKingSprite: {fileID: 21300000, guid: a4cc151042b521242a0cec905b5634b1, type: 3}
+  DiamondsKingSprite: {fileID: 21300000, guid: d76407dcdec2084478c16c131a3d99b6, type: 3}
+  ClubsKingSprite: {fileID: 21300000, guid: 5c227779f169aa042aa0514fb21dd245, type: 3}
