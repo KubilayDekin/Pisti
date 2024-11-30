@@ -6,15 +6,7 @@ namespace Pisti
 {
 	public class Deck : MonoBehaviour
 	{
-		public Sprite spadeSprite, heartSprite, clubSprite, diamondSprite;
-		public Sprite jackSprite, queenSprite, kingSprite;
-
 		private List<Card> deck = new List<Card>();
-
-		void Start()
-		{
-			CreateDeck();
-		}
 
 		private void CreateDeck()
 		{
@@ -36,18 +28,63 @@ namespace Pisti
 			/// Returning the appropriate sprite for the cards with special sprites
 			if (cardValue == 11)
 			{
-				return jackSprite;
+				if (cardSuit == Constants.Spades)
+				{
+					return CardVisualizer.SpadesJackSprite;
+				}
+				else if (cardSuit == Constants.Hearts)
+				{
+					return CardVisualizer.HeartsJackSprite;
+				}
+				else if (cardSuit == Constants.Clubs)
+				{
+					return CardVisualizer.ClubsJackSprite;
+				}
+				else if (cardSuit == Constants.Diamonds)
+				{
+					return CardVisualizer.DiamondsJackSprite;
+				}
 			}
 			else if (cardValue == 12)
-			{
-				return queenSprite;
+			{				
+				if (cardSuit == Constants.Spades)
+				{
+					return CardVisualizer.SpadesQueenSprite;
+				}
+				else if (cardSuit == Constants.Hearts)
+				{
+					return CardVisualizer.HeartsQueenSprite;
+				}
+				else if (cardSuit == Constants.Clubs)
+				{
+					return CardVisualizer.ClubsQueenSprite;
+				}
+				else if (cardSuit == Constants.Diamonds)
+				{
+					return CardVisualizer.DiamondsQueenSprite;
+				}
 			}
 			else if (cardValue == 13)
 			{
-				return kingSprite;
+				if (cardSuit == Constants.Spades)
+				{
+					return CardVisualizer.SpadesKingSprite;
+				}
+				else if (cardSuit == Constants.Hearts)
+				{
+					return CardVisualizer.HeartsKingSprite;
+				}
+				else if (cardSuit == Constants.Clubs)
+				{
+					return CardVisualizer.ClubsKingSprite;
+				}
+				else if (cardSuit == Constants.Diamonds)
+				{
+					return CardVisualizer.DiamondsKingSprite;
+				}
 			}
 
-			// Use CardVisualizer for other cards
+			// If the card is not a special card, get the sprite from the CardVisualizer class
 			return CardVisualizer.GetCardSprite(cardSuit);
 		}
 
