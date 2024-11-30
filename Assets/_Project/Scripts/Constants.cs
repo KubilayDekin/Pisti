@@ -7,7 +7,7 @@ namespace Pisti
 	{
 		#region Gameplay
 
-		public static float cardDistributeDelay = 0.25f;
+		public static float cardDistributeDelay = 0.75f;
 		public static float waitBeforeTurnStart = 1f;
 
 		#endregion
