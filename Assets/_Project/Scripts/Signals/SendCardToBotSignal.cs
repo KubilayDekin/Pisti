@@ -4,5 +4,5 @@ using UnityEngine;
 
 namespace Pisti
 {
-	public class SendCardToBotSignal : Signal<Card> { }
+	public class SendCardToBotSignal : Signal<CardView> { }
 }

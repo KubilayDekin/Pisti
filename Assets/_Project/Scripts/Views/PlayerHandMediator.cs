@@ -7,6 +7,7 @@ namespace Pisti
 	public class PlayerHandMediator : Mediator
 	{
 		[Inject] public PlayerHandView View { get; set; }
+		[Inject] public SendCardToPlayerSignal SendCardToPlayerSignal { get; set; }
 
 		public override void OnRegister()
 		{
