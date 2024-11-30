@@ -7,11 +7,13 @@ namespace Pisti
 	{
 		public Card Card { get; set; }
 		public CardOwner CardOwner { get; set; }
+		public bool IsVisible { get; set; }
 
-		public DistributeCardSignalData(Card card, CardOwner cardOwner)
+		public DistributeCardSignalData(Card card, CardOwner cardOwner, bool isVisible)
 		{
 			Card = card;
 			CardOwner = cardOwner;
+			IsVisible = isVisible;
 		}
 	}
 

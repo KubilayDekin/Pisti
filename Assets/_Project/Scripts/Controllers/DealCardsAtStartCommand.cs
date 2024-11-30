@@ -1,4 +1,5 @@
 ﻿using strange.extensions.command.impl;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Pisti
@@ -30,7 +31,14 @@ namespace Pisti
 		{
 			for (int i = 0; i < count; i++)
 			{
-				DistributeCardSignal.Dispatch(new DistributeCardSignalData(DeckService.DrawCard(), owner));
+				bool isVisible = owner == CardOwner.Player;
+
+				if(owner == CardOwner.Table && i == 3)
+				{
+					isVisible = true;
+				}
+
+				DistributeCardSignal.Dispatch(new DistributeCardSignalData(DeckService.DrawCard(), owner, isVisible));
 				await Task.Delay((int)(Constants.cardDistributeDelay * 1000));
 			}
 		}

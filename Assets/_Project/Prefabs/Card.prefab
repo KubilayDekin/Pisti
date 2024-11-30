@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardImage: {fileID: 4548944594527491493}
   cardValueText: {fileID: 7344165776562061343}
+  backOfCard: {fileID: 21300000, guid: 51f6e49ba1d55864ba8cfcc835df61a7, type: 3}
   redTextColor: {r: 0.8352941, g: 0.3254902, b: 0.5568628, a: 1}
   blackTextColor: {r: 0.19607843, g: 0.20784314, b: 0.34509805, a: 1}
 --- !u!222 &5797422748274016183

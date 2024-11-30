@@ -12,7 +12,7 @@ namespace Pisti
 		[SerializeField] private Transform tableCards;
 		[SerializeField] private Transform deck;
 
-		internal void DistributeCard(Card card, CardOwner cardOwner)
+		internal void DistributeCard(Card card, CardOwner cardOwner, bool isVisible)
 		{
 			GameObject cardToDistribute = Instantiate(cardPrefab, deck.transform.position, cardPrefab.transform.rotation);
 			cardToDistribute.transform.SetParent(deck);
@@ -35,6 +35,7 @@ namespace Pisti
 			}
 
 			cardToDistributeCardView.MoveToTheHand(cardTargetTransform);
+			cardToDistributeCardView.SetVisibility(isVisible);
 		}
 	}
 }

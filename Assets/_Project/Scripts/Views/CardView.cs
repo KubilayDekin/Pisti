@@ -13,6 +13,7 @@ namespace Pisti
 		[Header("References")]
 		[SerializeField] private Image cardImage;
 		[SerializeField] private TextMeshProUGUI cardValueText;
+		[SerializeField] private Sprite backOfCard;
 
 		[Header("Settings")]
 		[SerializeField] private Color redTextColor;
@@ -36,7 +37,18 @@ namespace Pisti
 			}
 		}
 
+		public void SetVisibility(bool isVisible)
+		{
+			cardValueText.gameObject.SetActive(isVisible);
+			cardImage.sprite = isVisible ? cardData.CardSprite : backOfCard;
+		}
+
 		public void MoveToTheHand(Transform targetTransform)
+		{
+			transform.DOMove(targetTransform.position, 0.5f).SetEase(Ease.Linear).OnComplete(() => transform.parent = targetTransform);
+		}
+
+		public void MoveToTheTable(Transform targetTransform)
 		{
 			transform.DOMove(targetTransform.position, 0.5f).SetEase(Ease.Linear).OnComplete(() => transform.parent = targetTransform);
 		}
