@@ -31,10 +31,15 @@ namespace Pisti
 		private void BindViews()
 		{
 			mediationBinder.Bind<CardView>().To<CardMediator>();
+			mediationBinder.Bind<PlayerHandView>().To<PlayerHandMediator>();
+			mediationBinder.Bind<BotHandView>().To<BotHandMediator>();
 		}
 
 		private void BindModels()
 		{
+			injectionBinder.Bind<IPlayerHandModel>().To<PlayerHandModel>().ToSingleton();
+			injectionBinder.Bind<IBotHandModel>().To<BotHandModel>();
+
 			injectionBinder.Bind<ICardVisualsModel>().To<CardVisualsModel>().ToSingleton().CrossContext();
 			injectionBinder.Bind<ICard>().To<Card>().ToSingleton().CrossContext();
 		}
