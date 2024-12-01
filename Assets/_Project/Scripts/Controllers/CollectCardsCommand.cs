@@ -1,5 +1,6 @@
 ﻿using strange.extensions.command.impl;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Pisti
@@ -12,8 +13,10 @@ namespace Pisti
 		[Inject] public IBotHandModel BotHandModel { get; set; }
 		[Inject] public MoveCollectedCardsSignal MoveCollectedCardsSignal { get; set; }
 
-		public override void Execute()
+		public async override void Execute()
 		{
+			await Task.Delay((int)(1000 * Constants.waitBeforeCollectingCards));
+
 			if(CardOwner == CardOwner.Player)
 			{
 				foreach(Card card in TableCardsModel.CardsOnTable)
@@ -30,6 +33,8 @@ namespace Pisti
 					MoveCollectedCardsSignal.Dispatch(CardOwner.Bot);
 				}
 			}
+
+			TableCardsModel.CardsOnTable.Clear();
 		}
 	}
 }

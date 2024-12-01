@@ -15,7 +15,7 @@ namespace Pisti
 		{
 			if(CheckPisti(playedCard))
 			{
-				CollectCards();
+				CollectCards(playedCard);
 				/// TODO: Implement pisti
 				Debug.LogError("Pişti");
 				return;
@@ -23,13 +23,22 @@ namespace Pisti
 
             if (CheckMatch(playedCard))
             {
-				CollectCards();
+				CollectCards(playedCard);
 				/// TODO: Implement match
 				Debug.LogError("Match");
 				return;
 			}
 			else
 			{
+				if (GameStateModel.LastPlayerState == GameState.PlayerTurn)
+				{
+					ChangeGameStateSignal.Dispatch(GameState.BotTurn);
+				}
+				else if (GameStateModel.LastPlayerState == GameState.BotTurn)
+				{
+					ChangeGameStateSignal.Dispatch(GameState.PlayerTurn);
+				}
+
 				TableCardsModel.AddCard(playedCard);
 			}
         }
@@ -60,8 +69,10 @@ namespace Pisti
 			return false;
 		}
 
-		private void CollectCards()
+		private void CollectCards(Card playedCard)
 		{
+			TableCardsModel.AddCard(playedCard);
+
 			if(GameStateModel.LastPlayerState == GameState.PlayerTurn)
 			{
 				CollectCardsSignal.Dispatch(CardOwner.Player);

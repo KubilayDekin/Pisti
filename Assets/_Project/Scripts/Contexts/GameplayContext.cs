@@ -68,6 +68,7 @@ namespace Pisti
 			injectionBinder.Bind<ChangeGameStateSignal>().ToSingleton();
 			commandBinder.Bind<ChangeGameStateSignal>().To<ChangeGameStateCommand>();
 
+
 			injectionBinder.Bind<PlayCardSignal>().ToSingleton();
 			commandBinder.Bind<PlayCardSignal>().To<PlayCardCommand>();
 
@@ -78,6 +79,9 @@ namespace Pisti
 			commandBinder.Bind<CollectCardsSignal>().To<CollectCardsCommand>();
 
 			injectionBinder.Bind<MoveCollectedCardsSignal>().ToSingleton();
+
+			injectionBinder.Bind<BotPlayCardSignal>().ToSingleton();
+			commandBinder.Bind<BotPlayCardSignal>().To<BotCardPlayCommand>();
 		}
 	}
 }

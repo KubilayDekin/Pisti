@@ -18,6 +18,9 @@ namespace Pisti
 
 		public override void Execute()
 		{
+			Debug.LogError("Playing Card, state => " + GameStateModel.GameState);
+			Debug.LogError("Card Owner => " + Data.CardOwner);
+
 			if(Data.CardOwner == CardOwner.Player && GameStateModel.GameState == GameState.PlayerTurn)
 			{
 				GameStateModel.LastPlayerState = GameState.PlayerTurn;
@@ -30,6 +33,8 @@ namespace Pisti
 			}
 			else if(Data.CardOwner == CardOwner.Bot && GameStateModel.GameState == GameState.BotTurn)
 			{
+				Debug.LogError("Bot plays");
+
 				GameStateModel.LastPlayerState = GameState.BotTurn;
 				ChangeGameStateSignal.Dispatch(GameState.OnHold);
 
