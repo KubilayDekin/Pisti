@@ -8,7 +8,9 @@ namespace Pisti
 		#region Gameplay
 
 		public static float cardDistributeDelay = 0.75f;
-		public static float waitBeforeTurnStart = 1f;
+		public static float waitBeforeTurnStart = 0.25f;
+		public static float cardToTableDuration = 0.3f;
+		public static float cardToHandDuration = 0.3f;
 
 		#endregion
 

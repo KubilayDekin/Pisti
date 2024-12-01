@@ -69,12 +69,12 @@ namespace Pisti
 
 		public void MoveToTheHand(Transform targetTransform)
 		{
-			transform.DOMove(targetTransform.position, 0.5f).SetEase(Ease.Linear).OnComplete(() => transform.parent = targetTransform);
+			transform.DOMove(targetTransform.position, Constants.cardToHandDuration).SetEase(Ease.Linear).OnComplete(() => transform.parent = targetTransform);
 		}
 
 		public void MoveToTheTable(Transform targetTransform)
 		{
-			transform.DOMove(targetTransform.position, 3f).SetEase(Ease.Linear).OnComplete(() =>
+			transform.DOMove(targetTransform.position, Constants.cardToTableDuration).SetEase(Ease.Linear).OnComplete(() =>
 			{
 				HandleCardMovedToTheTable(targetTransform);
 			});
