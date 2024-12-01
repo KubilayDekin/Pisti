@@ -36,6 +36,12 @@ namespace Pisti
 
 			cardToDistributeCardView.MoveToTheHand(cardTargetTransform);
 			cardToDistributeCardView.SetVisibility(isVisible);
+			cardToDistributeCardView.SetCardInteractability(cardOwner);
+		}
+
+		internal void SendCardToTable(CardView cardView)
+		{
+			cardView.MoveToTheTable(tableCards);
 		}
 	}
 }

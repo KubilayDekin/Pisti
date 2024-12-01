@@ -8,12 +8,14 @@ namespace Pisti
 	{
 		[Inject] public CardDistributorView View { get; set; }
 		[Inject] public DistributeCardSignal DistributeCardSignal { get; set; }
+		[Inject] public SendCardToTableSignal SendCardToTableSignal { get; set; }
 
 		public override void OnRegister()
 		{
 			base.OnRegister();
 
 			DistributeCardSignal.AddListener(DistributeCard);
+			SendCardToTableSignal.AddListener(SendCardToTable);
 		}
 
 		public override void OnRemove()
@@ -21,11 +23,17 @@ namespace Pisti
 			base.OnRemove();
 
 			DistributeCardSignal.RemoveListener(DistributeCard);
+			SendCardToTableSignal.RemoveListener(SendCardToTable);
 		}
 
 		private void DistributeCard(DistributeCardSignalData data)
 		{
 			View.DistributeCard(data.Card, data.CardOwner, data.IsVisible);
+		}
+
+		private void SendCardToTable(CardView cardView)
+		{
+			View.SendCardToTable(cardView);
 		}
 	}
 }

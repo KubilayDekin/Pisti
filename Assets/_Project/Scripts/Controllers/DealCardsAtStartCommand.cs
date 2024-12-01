@@ -9,6 +9,7 @@ namespace Pisti
 		[Inject] public IDeckService DeckService { get; set; }
 		[Inject] public DistributeCardSignal DistributeCardSignal { get; set; }
 		[Inject] public ChangeGameStateSignal ChangeGameStateSignal { get; set; }
+		[Inject] public ITableCardsModel TableCardsModel { get; set; }
 
 		public async override void Execute()
 		{
@@ -38,7 +39,12 @@ namespace Pisti
 					isVisible = true;
 				}
 
-				DistributeCardSignal.Dispatch(new DistributeCardSignalData(DeckService.DrawCard(), owner, isVisible));
+				Card drawedCard = DeckService.DrawCard();
+
+				if(owner == CardOwner.Table)
+					TableCardsModel.AddCard(drawedCard);
+
+				DistributeCardSignal.Dispatch(new DistributeCardSignalData(drawedCard, owner, isVisible));
 				await Task.Delay((int)(Constants.cardDistributeDelay * 1000));
 			}
 		}
