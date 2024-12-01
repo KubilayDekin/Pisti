@@ -80,6 +80,11 @@ namespace Pisti
 			});
 		}
 
+		public void MoveToWonPoint(Transform targetTransform)
+		{
+			transform.DOMove(targetTransform.position, Constants.wonCardMoveDuration).SetEase(Ease.Linear).OnComplete(() => Destroy(gameObject));
+		}
+
 		private void HandleCardMovedToTheTable(Transform targetTransform)
 		{
 			transform.parent = targetTransform;

@@ -10,6 +10,8 @@ namespace Pisti
 		[Inject] public DistributeCardSignal DistributeCardSignal { get; set; }
 		[Inject] public ChangeGameStateSignal ChangeGameStateSignal { get; set; }
 		[Inject] public ITableCardsModel TableCardsModel { get; set; }
+		[Inject] public IPlayerHandModel PlayerHandModel { get; set; }
+		[Inject] public IBotHandModel BotHandModel { get; set; }
 
 		public async override void Execute()
 		{
@@ -43,6 +45,10 @@ namespace Pisti
 
 				if(owner == CardOwner.Table)
 					TableCardsModel.AddCard(drawedCard);
+				else if(owner == CardOwner.Player)
+					PlayerHandModel.AddCard(drawedCard);
+				else if(owner == CardOwner.Bot)
+					BotHandModel.AddCard(drawedCard);
 
 				DistributeCardSignal.Dispatch(new DistributeCardSignalData(drawedCard, owner, isVisible));
 				await Task.Delay((int)(Constants.cardDistributeDelay * 1000));

@@ -43,5 +43,15 @@ namespace Pisti
 		{
 			cardView.MoveToTheTable(tableCards);
 		}
+
+		internal void SendWonCardsToPlayer(CardOwner wonPlayer)
+		{
+			Transform target = wonPlayer == CardOwner.Player ? playerHand : botHand;
+
+			foreach (Transform card in tableCards)
+			{
+				card.GetComponent<CardView>().MoveToWonPoint(target);
+			}
+		}
 	}
 }

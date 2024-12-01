@@ -6,16 +6,18 @@ namespace Pisti
 {
 	public class PlayerHandModel : IPlayerHandModel
 	{
-		public List<Card> Cards { get; set; } = new List<Card>();
+		public List<Card> CardsToPlay { get; set; } = new List<Card>();
+		public List<Card> WonCards { get; set; } = new List<Card>();
+		public int Points { get; set; }
 
 		public void AddCard(Card card)
 		{
-			Cards.Add(card);
+			CardsToPlay.Add(card);
 		}
 
 		public void RemoveCard(Card card)
 		{
-			Cards.Remove(card);
+			CardsToPlay.Remove(card);
 		}
 	}
 }

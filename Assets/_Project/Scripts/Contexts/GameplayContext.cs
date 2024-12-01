@@ -73,6 +73,11 @@ namespace Pisti
 
 			injectionBinder.Bind<SendCardToTableSignal>().ToSingleton();
 			injectionBinder.Bind<CardReachedToTableSignal>().ToSingleton();
+
+			injectionBinder.Bind<CollectCardsSignal>().ToSingleton();
+			commandBinder.Bind<CollectCardsSignal>().To<CollectCardsCommand>();
+
+			injectionBinder.Bind<MoveCollectedCardsSignal>().ToSingleton();
 		}
 	}
 }

@@ -9,6 +9,7 @@ namespace Pisti
 		[Inject] public CardDistributorView View { get; set; }
 		[Inject] public DistributeCardSignal DistributeCardSignal { get; set; }
 		[Inject] public SendCardToTableSignal SendCardToTableSignal { get; set; }
+		[Inject] public MoveCollectedCardsSignal MoveCollectedCardsSignal { get; set; }
 
 		public override void OnRegister()
 		{
@@ -16,6 +17,7 @@ namespace Pisti
 
 			DistributeCardSignal.AddListener(DistributeCard);
 			SendCardToTableSignal.AddListener(SendCardToTable);
+			MoveCollectedCardsSignal.AddListener(MoveCollectedCards);
 		}
 
 		public override void OnRemove()
@@ -24,6 +26,7 @@ namespace Pisti
 
 			DistributeCardSignal.RemoveListener(DistributeCard);
 			SendCardToTableSignal.RemoveListener(SendCardToTable);
+			MoveCollectedCardsSignal.RemoveListener(MoveCollectedCards);
 		}
 
 		private void DistributeCard(DistributeCardSignalData data)
@@ -34,6 +37,11 @@ namespace Pisti
 		private void SendCardToTable(CardView cardView)
 		{
 			View.SendCardToTable(cardView);
+		}
+
+		private void MoveCollectedCards(CardOwner cardOwner)
+		{
+			View.SendWonCardsToPlayer(cardOwner);
 		}
 	}
 }

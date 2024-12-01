@@ -12,6 +12,9 @@ namespace Pisti
 		[Inject] public IPistiService PistiService { get; set; }
 		[Inject] public SendCardToTableSignal SendCardToTableSignal { get; set; }
 		[Inject] public CardReachedToTableSignal CardReachedToTableSignal { get; set; }
+		[Inject] public ITableCardsModel TableCardsModel { get; set; }
+		[Inject] public IPlayerHandModel PlayerHandModel { get; set; }
+		[Inject] public IBotHandModel BotHandModel { get; set; }
 
 		public override void Execute()
 		{
@@ -22,6 +25,7 @@ namespace Pisti
 
 				SendCardToTableSignal.Dispatch(Data.CardView);
 
+				PlayerHandModel.RemoveCard(Data.CardView.cardData);
 				CardReachedToTableSignal.AddListener(() => OnCardReachedToTable());
 			}
 			else if(Data.CardOwner == CardOwner.Bot && GameStateModel.GameState == GameState.BotTurn)
@@ -31,6 +35,7 @@ namespace Pisti
 
 				SendCardToTableSignal.Dispatch(Data.CardView);
 
+				BotHandModel.RemoveCard(Data.CardView.cardData);
 				CardReachedToTableSignal.AddListener(() => OnCardReachedToTable());
 			}
 		}
