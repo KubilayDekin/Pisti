@@ -21,16 +21,12 @@ namespace Pisti
 			if(CheckPisti(playedCard))
 			{
 				CollectCards(playedCard);
-				/// TODO: Implement pisti
-				Debug.LogError("Pişti");
 				return;
 			}
 
             if (CheckMatch(playedCard))
             {
 				CollectCards(playedCard);
-				/// TODO: Implement match
-				Debug.LogError("Match");
 				return;
 			}
 			else
@@ -91,7 +87,6 @@ namespace Pisti
 				}
 
 				PlayerHandModel.RemoveCard(playedCard);
-				Debug.LogError("Player Card Removed");
 
 				if (DealCards())
 					return;
@@ -112,7 +107,6 @@ namespace Pisti
 				}
 
 				BotHandModel.RemoveCard(playedCard);
-				Debug.LogError("Bot Card Removed");
 
 				if (DealCards())
 					return;
@@ -123,9 +117,6 @@ namespace Pisti
 
 		private bool DealCards()
 		{
-			Debug.LogError("Player Has " + PlayerHandModel.CardsToPlay.Count + " Cards To Play");
-			Debug.LogError("Bot Has " + BotHandModel.CardsToPlay.Count + " Cards To Play");
-
 			if (PlayerHandModel.CardsToPlay.Count == 0 && BotHandModel.CardsToPlay.Count == 0)
 			{
 				if(DeckModel.Cards.Count == 0)
@@ -134,7 +125,6 @@ namespace Pisti
 				}
 				else
 				{
-					Debug.LogError("Dealing Cards Both Player Hands Are Empty");
 					DealCardsSignal.Dispatch();
 				}
 

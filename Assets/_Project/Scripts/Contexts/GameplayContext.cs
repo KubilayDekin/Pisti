@@ -42,16 +42,16 @@ namespace Pisti
 			injectionBinder.Bind<IBotHandModel>().To<BotHandModel>().ToSingleton();
 			injectionBinder.Bind<ITableCardsModel>().To<TableCardsModel>().ToSingleton();
 
-			injectionBinder.Bind<ICardVisualsModel>().To<CardVisualsModel>().ToSingleton().CrossContext();
-			injectionBinder.Bind<ICard>().To<Card>().ToSingleton().CrossContext();
-			injectionBinder.Bind<IDeckModel>().To<DeckModel>().ToSingleton().CrossContext();
-			injectionBinder.Bind<IGameStateModel>().To<GameStateModel>().ToSingleton().CrossContext();
+			injectionBinder.Bind<ICardVisualsModel>().To<CardVisualsModel>().ToSingleton();
+			injectionBinder.Bind<ICard>().To<Card>().ToSingleton();
+			injectionBinder.Bind<IDeckModel>().To<DeckModel>().ToSingleton();
+			injectionBinder.Bind<IGameStateModel>().To<GameStateModel>().ToSingleton();
 		}
 
 		private void BindServices()
 		{
-			injectionBinder.Bind<IDeckService>().To<DeckService>().ToSingleton().CrossContext();
-			injectionBinder.Bind<IPistiService>().To<PistiService>().ToSingleton().CrossContext();
+			injectionBinder.Bind<IDeckService>().To<DeckService>().ToSingleton();
+			injectionBinder.Bind<IPistiService>().To<PistiService>().ToSingleton();
 		}
 
 		private void BindSignalsAndCommands()
@@ -65,11 +65,9 @@ namespace Pisti
 				.InSequence();
 
 			injectionBinder.Bind<DistributeCardSignal>().ToSingleton();
-			injectionBinder.Bind<ChangeGameStateSignal>().ToSingleton();
+			injectionBinder.Bind<ChangeGameStateSignal>().ToSingleton().CrossContext();
 			commandBinder.Bind<ChangeGameStateSignal>().To<ChangeGameStateCommand>();
 
-
-			//injectionBinder.Bind<PlayCardSignal>().ToSingleton();
 			commandBinder.Bind<PlayCardSignal>().To<PlayCardCommand>();
 
 			injectionBinder.Bind<SendCardToTableSignal>().ToSingleton();
