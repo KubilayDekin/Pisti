@@ -7,14 +7,14 @@ namespace Pisti
 	{
 		#region Times And Durations
 
-		public static float cardDistributeDelay = 0.75f;
+		public static float cardDistributeDelay = 0.25f;
 		public static float waitBeforeTurnStart = 0.25f;
 		public static float cardToTableDuration = 0.3f;
 		public static float cardToHandDuration = 0.3f;
 		public static float wonCardMoveDuration = 0.3f;
-		public static float botDecideDelayMin = 1f;
-		public static float botDecideDelayMax = 2.5f;
-		public static float waitBeforeCollectingCards = 1;
+		public static float botDecideDelayMin = 0.25f;
+		public static float botDecideDelayMax = 1f;
+		public static float waitBeforeCollectingCards = 1f;
 
 		#endregion
 

@@ -13,6 +13,7 @@ namespace Pisti
 		[Inject] public IBotHandModel BotHandModel { get; set; }
 		[Inject] public MoveCollectedCardsSignal MoveCollectedCardsSignal { get; set; }
 		[Inject] public UpdatePointTextsSignal UpdatePointTextsSignal { get; set; }
+		[Inject] public IGameStateModel GameStateModel { get; set; }
 
 		public async override void Execute()
 		{
@@ -37,6 +38,7 @@ namespace Pisti
 				}
 			}
 
+			GameStateModel.LastCardCollector = CardOwner;
 			TableCardsModel.CardsOnTable.Clear();
 		}
 	}

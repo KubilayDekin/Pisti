@@ -122,9 +122,12 @@ namespace Pisti
 		{
 			if (PlayerHandModel.CardsToPlay.Count == 0 && BotHandModel.CardsToPlay.Count == 0)
 			{
+				// Game Over
 				if(DeckModel.Cards.Count == 0)
 				{
-					GameOverSignal.Dispatch();
+					GiveCardsOnTableToTheLastCollector();
+					GivePointsPlayerWithMostCards();
+					GameOverSignal.Dispatch(new GameOverSignalData(PlayerHandModel.Points, BotHandModel.Points));
 				}
 				else
 				{
@@ -176,6 +179,33 @@ namespace Pisti
 			}
 
 			return points;
+		}
+
+		private void GiveCardsOnTableToTheLastCollector()
+		{
+			if(TableCardsModel.CardsOnTable.Count == 0)
+				return;
+
+			if(GameStateModel.LastCardCollector == CardOwner.Player)
+			{
+				CollectCardsSignal.Dispatch(CardOwner.Player);
+			}
+			else if(GameStateModel.LastCardCollector == CardOwner.Bot)
+			{
+				CollectCardsSignal.Dispatch(CardOwner.Bot);
+			}
+		}
+
+		private void GivePointsPlayerWithMostCards()
+		{
+			if(PlayerHandModel.WonCards.Count > BotHandModel.WonCards.Count)
+			{
+				PlayerHandModel.Points += 3;
+			}
+			else if(PlayerHandModel.WonCards.Count < BotHandModel.WonCards.Count)
+			{
+				BotHandModel.Points += 3;
+			}
 		}
 	}
 }

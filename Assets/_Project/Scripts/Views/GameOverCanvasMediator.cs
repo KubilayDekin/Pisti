@@ -31,9 +31,9 @@ namespace Pisti
 			RestartGameSignal.Dispatch();
 		}
 
-		private void ShowGameOverCanvas()
+		private void ShowGameOverCanvas(GameOverSignalData data)
 		{
-			View.ShowGameOverCanvas();
+			View.ShowGameOverCanvas(data.PlayerPoints, data.BotPoints);
 		}
 	}
 }

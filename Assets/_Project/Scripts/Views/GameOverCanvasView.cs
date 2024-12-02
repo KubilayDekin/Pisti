@@ -2,6 +2,7 @@
 using strange.extensions.signal.impl;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,8 @@ namespace Pisti
 	{
 		[SerializeField] private Canvas canvas;
 		[SerializeField] private Button restartGameButton;
+		[SerializeField] private TextMeshProUGUI playerPointsText;
+		[SerializeField] private TextMeshProUGUI botPointsText;
 
 		internal Signal restartGameSignal = new Signal();
 
@@ -26,8 +29,11 @@ namespace Pisti
 			restartGameButton.onClick.RemoveListener(OnRestartGameButtonClicked);
 		}
 
-		internal void ShowGameOverCanvas() 
+		internal void ShowGameOverCanvas(int playerPoints, int botPoints) 
 		{ 			
+			playerPointsText.text = playerPoints.ToString();
+			botPointsText.text = botPoints.ToString();
+
 			canvas.enabled = true;
 		}
 

@@ -4,5 +4,5 @@ using UnityEngine;
 
 namespace Pisti
 {
-	public class GameOverSignal : Signal { }
+	public class GameOverSignal : Signal <GameOverSignalData> { }
 }
