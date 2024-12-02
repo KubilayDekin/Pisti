@@ -1,4 +1,5 @@
 ﻿using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ namespace Pisti
 		[SerializeField] private Transform botHand;
 		[SerializeField] private Transform tableCards;
 		[SerializeField] private Transform deck;
+
+		internal Signal onWonCardsMovementCompleted = new Signal(); 
 
 		internal void DistributeCard(Card card, CardOwner cardOwner, bool isVisible)
 		{
@@ -52,6 +55,15 @@ namespace Pisti
 			{
 				card.GetComponent<CardView>().MoveToWonPoint(target);
 			}
+
+			StartCoroutine(OnCardsCollected());
+		}
+
+		private IEnumerator OnCardsCollected()
+		{
+			yield return new WaitForSeconds(Constants.wonCardMoveDuration);
+
+			onWonCardsMovementCompleted.Dispatch();
 		}
 	}
 }

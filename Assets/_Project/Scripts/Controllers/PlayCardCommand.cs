@@ -18,36 +18,36 @@ namespace Pisti
 
 		public override void Execute()
 		{
-			Debug.LogError("Playing Card, state => " + GameStateModel.GameState);
-			Debug.LogError("Card Owner => " + Data.CardOwner);
-
 			if(Data.CardOwner == CardOwner.Player && GameStateModel.GameState == GameState.PlayerTurn)
 			{
+				Retain();
+
 				GameStateModel.LastPlayerState = GameState.PlayerTurn;
 				ChangeGameStateSignal.Dispatch(GameState.OnHold);
 
 				SendCardToTableSignal.Dispatch(Data.CardView);
 
-				PlayerHandModel.RemoveCard(Data.CardView.cardData);
-				CardReachedToTableSignal.AddListener(() => OnCardReachedToTable());
+				CardReachedToTableSignal.AddListener(OnCardReachedToTable);
 			}
 			else if(Data.CardOwner == CardOwner.Bot && GameStateModel.GameState == GameState.BotTurn)
 			{
-				Debug.LogError("Bot plays");
+				Retain();
 
 				GameStateModel.LastPlayerState = GameState.BotTurn;
 				ChangeGameStateSignal.Dispatch(GameState.OnHold);
 
 				SendCardToTableSignal.Dispatch(Data.CardView);
 
-				BotHandModel.RemoveCard(Data.CardView.cardData);
-				CardReachedToTableSignal.AddListener(() => OnCardReachedToTable());
+				CardReachedToTableSignal.AddListener(OnCardReachedToTable);
 			}
 		}
 
 		private void OnCardReachedToTable()
 		{
+			Debug.LogError("Card Reached To Table");
 			PistiService.HandleCardPlayed(Data.CardView.cardData);
+			CardReachedToTableSignal.RemoveListener(OnCardReachedToTable);
+			Release();
 		}
 	}
 }

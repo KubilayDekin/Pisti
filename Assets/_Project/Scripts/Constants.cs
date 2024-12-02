@@ -18,6 +18,11 @@ namespace Pisti
 
 		#endregion
 
+		#region Random Values
+		public static float tableCardRandomXRange = 65f;
+		public static float tableCardRandomYRange = 65f;
+		#endregion
+
 		#region Deck
 
 		public static int[] values = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }; // 1 is Ace, 11 is Jack, 12 is Queen, 13 is King

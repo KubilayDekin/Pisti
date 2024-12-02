@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Pisti
@@ -10,6 +11,10 @@ namespace Pisti
 		[Inject] public IDeckModel DeckModel { get; set; }
 		[Inject] public IGameStateModel GameStateModel { get; set; }
 		[Inject] public CollectCardsSignal CollectCardsSignal { get; set; }
+		[Inject] public IPlayerHandModel PlayerHandModel { get; set; }
+		[Inject] public IBotHandModel BotHandModel { get; set; }
+		[Inject] public DealCardsSignal DealCardsSignal { get; set; }
+		[Inject] public CardsCollectedSignal CardsCollectedSignal { get; set; }
 
 		public void HandleCardPlayed(Card playedCard)
 		{
@@ -30,16 +35,8 @@ namespace Pisti
 			}
 			else
 			{
-				if (GameStateModel.LastPlayerState == GameState.PlayerTurn)
-				{
-					ChangeGameStateSignal.Dispatch(GameState.BotTurn);
-				}
-				else if (GameStateModel.LastPlayerState == GameState.BotTurn)
-				{
-					ChangeGameStateSignal.Dispatch(GameState.PlayerTurn);
-				}
-
 				TableCardsModel.AddCard(playedCard);
+				ChangeGameState(false, playedCard);
 			}
         }
 
@@ -73,16 +70,78 @@ namespace Pisti
 		{
 			TableCardsModel.AddCard(playedCard);
 
-			if(GameStateModel.LastPlayerState == GameState.PlayerTurn)
+			ChangeGameState(true, playedCard);
+		}
+
+		private async void ChangeGameState(bool isMatched, Card playedCard)
+		{
+			bool shouldWait = isMatched;
+
+			if (GameStateModel.LastPlayerState == GameState.PlayerTurn)
 			{
-				CollectCardsSignal.Dispatch(CardOwner.Player);
+				if (isMatched)
+				{
+					CollectCardsSignal.Dispatch(CardOwner.Player);
+					CardsCollectedSignal.AddOnce(() => shouldWait = false);
+				}
+
+				while (shouldWait)
+				{
+					await Task.Delay(250);
+				}
+
+				PlayerHandModel.RemoveCard(playedCard);
+				Debug.LogError("Player Card Removed");
+
+				if (DealCards())
+					return;
+
 				ChangeGameStateSignal.Dispatch(GameState.BotTurn);
 			}
-			else if(GameStateModel.LastPlayerState == GameState.BotTurn)
+			else if (GameStateModel.LastPlayerState == GameState.BotTurn)
 			{
-				CollectCardsSignal.Dispatch(CardOwner.Bot);
+				if (isMatched)
+				{
+					CollectCardsSignal.Dispatch(CardOwner.Bot);
+					CardsCollectedSignal.AddOnce(() => shouldWait = false);
+				}
+
+				while (shouldWait)
+				{
+					await Task.Delay(250);
+				}
+
+				BotHandModel.RemoveCard(playedCard);
+				Debug.LogError("Bot Card Removed");
+
+				if (DealCards())
+					return;
+
 				ChangeGameStateSignal.Dispatch(GameState.PlayerTurn);
 			}
+		}
+
+		private bool DealCards()
+		{
+			Debug.LogError("Player Has " + PlayerHandModel.CardsToPlay.Count + " Cards To Play");
+			Debug.LogError("Bot Has " + BotHandModel.CardsToPlay.Count + " Cards To Play");
+
+			if (PlayerHandModel.CardsToPlay.Count == 0 && BotHandModel.CardsToPlay.Count == 0)
+			{
+				if(DeckModel.Cards.Count == 0)
+				{
+					Debug.LogError("Game Over");
+				}
+				else
+				{
+					Debug.LogError("Dealing Cards Both Player Hands Are Empty");
+					DealCardsSignal.Dispatch();
+				}
+
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -39,7 +39,7 @@ namespace Pisti
 		private void BindModels()
 		{
 			injectionBinder.Bind<IPlayerHandModel>().To<PlayerHandModel>().ToSingleton();
-			injectionBinder.Bind<IBotHandModel>().To<BotHandModel>();
+			injectionBinder.Bind<IBotHandModel>().To<BotHandModel>().ToSingleton();
 			injectionBinder.Bind<ITableCardsModel>().To<TableCardsModel>().ToSingleton();
 
 			injectionBinder.Bind<ICardVisualsModel>().To<CardVisualsModel>().ToSingleton().CrossContext();
@@ -69,7 +69,7 @@ namespace Pisti
 			commandBinder.Bind<ChangeGameStateSignal>().To<ChangeGameStateCommand>();
 
 
-			injectionBinder.Bind<PlayCardSignal>().ToSingleton();
+			//injectionBinder.Bind<PlayCardSignal>().ToSingleton();
 			commandBinder.Bind<PlayCardSignal>().To<PlayCardCommand>();
 
 			injectionBinder.Bind<SendCardToTableSignal>().ToSingleton();
@@ -82,6 +82,10 @@ namespace Pisti
 
 			injectionBinder.Bind<BotPlayCardSignal>().ToSingleton();
 			commandBinder.Bind<BotPlayCardSignal>().To<BotCardPlayCommand>();
+
+			commandBinder.Bind<DealCardsSignal>().To<DealCardsCommand>();
+
+			injectionBinder.Bind<CardsCollectedSignal>().ToSingleton();
 		}
 	}
 }

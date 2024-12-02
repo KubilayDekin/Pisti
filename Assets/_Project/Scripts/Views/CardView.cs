@@ -74,7 +74,12 @@ namespace Pisti
 
 		public void MoveToTheTable(Transform targetTransform)
 		{
-			transform.DOMove(targetTransform.position, Constants.cardToTableDuration).SetEase(Ease.Linear).OnComplete(() =>
+			Vector3 targetTablePosition = new Vector3(
+				targetTransform.position.x + Random.Range(-Constants.tableCardRandomXRange,Constants.tableCardRandomXRange),
+				targetTransform.position.y + Random.Range(-Constants.tableCardRandomYRange,Constants.tableCardRandomYRange),
+				targetTransform.position.z);
+
+			transform.DOMove(targetTablePosition, Constants.cardToTableDuration).SetEase(Ease.Linear).OnComplete(() =>
 			{
 				HandleCardMovedToTheTable(targetTransform);
 			});
