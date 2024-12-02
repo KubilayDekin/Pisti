@@ -84,6 +84,8 @@ namespace Pisti
 			commandBinder.Bind<DealCardsSignal>().To<DealCardsCommand>();
 
 			injectionBinder.Bind<CardsCollectedSignal>().ToSingleton();
+
+			injectionBinder.Bind<GameOverSignal>().ToSingleton().CrossContext();
 		}
 	}
 }

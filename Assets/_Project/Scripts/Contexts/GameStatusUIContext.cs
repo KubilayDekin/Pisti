@@ -20,11 +20,15 @@ namespace Pisti
 		private void BindViews()
 		{
 			mediationBinder.Bind<ScoreboardView>().To<ScoreboardMediator>();
+			mediationBinder.Bind<GameOverCanvasView>().To<GameOverCanvasMediator>();
 		}
 
 		private void BindSignalsAndCommands()
 		{
 			injectionBinder.Bind<UpdatePointTextsSignal>().ToSingleton().CrossContext();
+
+			injectionBinder.Bind<RestartGameSignal>().ToSingleton().CrossContext();
+			commandBinder.Bind<RestartGameSignal>().To<RestartGameCommand>();
 		}
 	}
 }

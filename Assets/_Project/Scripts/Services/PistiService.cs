@@ -16,6 +16,7 @@ namespace Pisti
 		[Inject] public IBotHandModel BotHandModel { get; set; }
 		[Inject] public DealCardsSignal DealCardsSignal { get; set; }
 		[Inject] public CardsCollectedSignal CardsCollectedSignal { get; set; }
+		[Inject] public GameOverSignal GameOverSignal { get; set; }
 
 		public void HandleCardPlayed(Card playedCard)
 		{
@@ -123,7 +124,7 @@ namespace Pisti
 			{
 				if(DeckModel.Cards.Count == 0)
 				{
-					Debug.LogError("Game Over");
+					GameOverSignal.Dispatch();
 				}
 				else
 				{
