@@ -2090,6 +2090,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 2118715294}
   restartGameButton: {fileID: 1381145558}
+  playerPointsText: {fileID: 1440337992}
+  botPointsText: {fileID: 1707244670}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
