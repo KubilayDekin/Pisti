@@ -44,7 +44,6 @@ namespace Pisti
 
 		private void OnCardReachedToTable()
 		{
-			Debug.LogError("Card Reached To Table");
 			PistiService.HandleCardPlayed(Data.CardView.cardData);
 			CardReachedToTableSignal.RemoveListener(OnCardReachedToTable);
 			Release();

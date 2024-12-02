@@ -8,12 +8,14 @@ namespace Pisti
 	{
 		[Inject] public ScoreboardView View { get; set; }
 		[Inject] public ChangeGameStateSignal ChangeGameStateSignal { get; set; }
+		[Inject] public UpdatePointTextsSignal UpdatePointTextsSignal { get; set; }
 
 		public override void OnRegister()
 		{
 			base.OnRegister();
 
 			ChangeGameStateSignal.AddListener(OnChangeGameState);
+			UpdatePointTextsSignal.AddListener(UpdatePointTexts);
 		}
 
 		public override void OnRemove()
@@ -21,6 +23,7 @@ namespace Pisti
 			base.OnRemove();
 
 			ChangeGameStateSignal.RemoveListener(OnChangeGameState);
+			UpdatePointTextsSignal.RemoveListener(UpdatePointTexts);
 		}
 
 		private void OnChangeGameState(GameState gameState)
@@ -28,5 +31,9 @@ namespace Pisti
 			View.SetTurn(gameState);
 		}
 
+		private void UpdatePointTexts(UpdatePointTextsSignalData data)
+		{
+			View.SetScoreText(data.CardOwner, data.Points);
+		}
 	}
 }

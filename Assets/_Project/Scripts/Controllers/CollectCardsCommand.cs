@@ -12,6 +12,7 @@ namespace Pisti
 		[Inject] public IPlayerHandModel PlayerHandModel { get; set; }
 		[Inject] public IBotHandModel BotHandModel { get; set; }
 		[Inject] public MoveCollectedCardsSignal MoveCollectedCardsSignal { get; set; }
+		[Inject] public UpdatePointTextsSignal UpdatePointTextsSignal { get; set; }
 
 		public async override void Execute()
 		{
@@ -23,6 +24,7 @@ namespace Pisti
 				{
 					PlayerHandModel.WonCards.Add(card);
 					MoveCollectedCardsSignal.Dispatch(CardOwner.Player);
+					UpdatePointTextsSignal.Dispatch(new UpdatePointTextsSignalData(CardOwner.Player, PlayerHandModel.Points));
 				}
 			}
 			else
@@ -31,6 +33,7 @@ namespace Pisti
 				{
 					BotHandModel.WonCards.Add(card);
 					MoveCollectedCardsSignal.Dispatch(CardOwner.Bot);
+					UpdatePointTextsSignal.Dispatch(new UpdatePointTextsSignalData(CardOwner.Bot, BotHandModel.Points));
 				}
 			}
 

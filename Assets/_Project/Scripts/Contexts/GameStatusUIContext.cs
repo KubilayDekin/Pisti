@@ -14,11 +14,17 @@ namespace Pisti
 			base.mapBindings();
 
 			BindViews();
+			BindSignalsAndCommands();
 		}
 
 		private void BindViews()
 		{
 			mediationBinder.Bind<ScoreboardView>().To<ScoreboardMediator>();
+		}
+
+		private void BindSignalsAndCommands()
+		{
+			injectionBinder.Bind<UpdatePointTextsSignal>().ToSingleton().CrossContext();
 		}
 	}
 }

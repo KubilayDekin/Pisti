@@ -224,6 +224,51 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4559989642295627784, guid: eb7fafd59e68ea941947c75ea3101810, type: 3}
   m_PrefabInstance: {fileID: 46535516}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &92993077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 92993078}
+  - component: {fileID: 92993079}
+  m_Layer: 0
+  m_Name: GameStatusContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &92993078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92993077}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1771005442}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &92993079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92993077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78086e1d88a72c4a8f53d617ae4d41f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &168473523
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +715,7 @@ GameObject:
   - component: {fileID: 976597493}
   - component: {fileID: 976597492}
   m_Layer: 0
-  m_Name: GameContext
+  m_Name: GameplayContext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -704,7 +749,6 @@ Transform:
   - {fileID: 1176279766}
   - {fileID: 439431545}
   - {fileID: 883736606}
-  - {fileID: 1771005442}
   - {fileID: 168473526}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1005,7 +1049,7 @@ RectTransform:
   m_Children:
   - {fileID: 46535517}
   - {fileID: 577128820}
-  m_Father: {fileID: 976597493}
+  m_Father: {fileID: 92993078}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1080,3 +1124,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 976597493}
+  - {fileID: 92993078}

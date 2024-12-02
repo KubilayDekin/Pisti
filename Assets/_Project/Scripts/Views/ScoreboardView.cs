@@ -29,9 +29,16 @@ namespace Pisti
 			}
 		}
 
-		public void SetScoreText(int score)
+		public void SetScoreText(CardOwner cardOwner, int score)
 		{
-			scoreText.text = score.ToString();
+			if(cardOwner == CardOwner.Player && targetTurn == GameState.PlayerTurn)
+			{
+				scoreText.text = score.ToString();
+			}
+			else if(cardOwner == CardOwner.Bot && targetTurn == GameState.BotTurn)
+			{
+				scoreText.text = score.ToString();
+			}
 		}
 	}
 }

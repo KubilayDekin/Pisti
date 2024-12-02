@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace Pisti
 		{
 			if(CheckPisti(playedCard))
 			{
+				AddPoints(10);
 				CollectCards(playedCard);
 				return;
 			}
@@ -65,7 +67,7 @@ namespace Pisti
 		private void CollectCards(Card playedCard)
 		{
 			TableCardsModel.AddCard(playedCard);
-
+			AddPoints(CalculatePointsOnTable());
 			ChangeGameState(true, playedCard);
 		}
 
@@ -132,6 +134,47 @@ namespace Pisti
 			}
 
 			return false;
+		}
+
+		private void AddPoints(int points)
+		{
+			if(GameStateModel.LastPlayerState == GameState.PlayerTurn)
+			{
+				PlayerHandModel.Points += points;
+			}
+			else if(GameStateModel.LastPlayerState == GameState.BotTurn)
+			{
+				BotHandModel.Points += points;
+			}
+		}
+
+		private int CalculatePointsOnTable()
+		{
+			List<Card> cards = new List<Card>();
+			cards = TableCardsModel.CardsOnTable;
+
+			int points = 0;
+
+			foreach (var card in cards)
+			{
+				switch (card.CardValue)
+				{
+					case 1:
+						points += 1;
+						break;
+					case 2 when card.CardSuit == Constants.Clubs:
+						points += 2;
+						break;
+					case 10 when card.CardSuit == Constants.Diamonds:
+						points += 3;
+						break;
+					case 11:
+						points += 1;
+						break;
+				}
+			}
+
+			return points;
 		}
 	}
 }
