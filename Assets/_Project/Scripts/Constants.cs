@@ -13,8 +13,8 @@ namespace Pisti
 		public static float cardToHandDuration = 0.3f;
 		public static float wonCardMoveDuration = 0.3f;
 		public static float botDecideDelayMin = 0.25f;
-		public static float botDecideDelayMax = 1f;
-		public static float waitBeforeCollectingCards = 1f;
+		public static float botDecideDelayMax = 0.65f;
+		public static float waitBeforeCollectingCards = 0.5f;
 
 		#endregion
 
