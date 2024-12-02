@@ -305,7 +305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 250}
+  m_AnchoredPosition: {x: 0, y: 300}
   m_SizeDelta: {x: 250, y: 150}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &632167510228481510
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30630b9fd02a781499485a81473ced5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardOwner: 0
+  targetTurn: 0
   playingBackgroundColor: {r: 0.22745098, g: 0.37254903, b: 0.043137256, a: 0.7254902}
   waitingBackgroundColor: {r: 0.4117647, g: 0.4117647, b: 0.4117647, a: 0.7254902}
   scoreboardBackgroundImage: {fileID: 5999862903867968478}
