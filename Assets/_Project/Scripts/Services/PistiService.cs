@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Pisti
@@ -18,101 +19,81 @@ namespace Pisti
 
 		public void HandleCardPlayed(Card playedCard)
 		{
-			if(CheckPisti(playedCard))
+			if (CheckPisti(playedCard) || CheckMatch(playedCard))
 			{
-				AddPoints(10);
-				CollectCards(playedCard);
-				return;
-			}
-
-            if (CheckMatch(playedCard))
-            {
-				CollectCards(playedCard);
-				return;
+				CollectCards(playedCard, CheckPisti(playedCard));
 			}
 			else
 			{
 				TableCardsModel.AddCard(playedCard);
 				ChangeGameState(false, playedCard);
 			}
-        }
-
-		public bool CheckPisti(Card playedCard)
-		{
-			Card cardOnTop = TableCardsModel.GetCardOnTop();
-
-			if (cardOnTop == null)
-				return false;
-
-			if(playedCard.CardValue == cardOnTop.CardValue && TableCardsModel.CardsOnTable.Count == 1)
-				return true;
-
-			return false;
 		}
 
-		public bool CheckMatch(Card playedCard)
+		private bool CheckPisti(Card playedCard)
 		{
-			Card cardOnTop = TableCardsModel.GetCardOnTop();
-
-			if (cardOnTop == null)
-				return false;
-
-			if (playedCard.CardValue == cardOnTop.CardValue || playedCard.CardValue == 11)
-				return true;
-
-			return false;
+			var cardOnTop = TableCardsModel.GetCardOnTop();
+			return cardOnTop != null &&
+				   playedCard.CardValue == cardOnTop.CardValue &&
+				   TableCardsModel.CardsOnTable.Count == 1;
 		}
 
-		private void CollectCards(Card playedCard)
+		private bool CheckMatch(Card playedCard)
+		{
+			var cardOnTop = TableCardsModel.GetCardOnTop();
+			return cardOnTop != null &&
+				   (playedCard.CardValue == cardOnTop.CardValue || playedCard.CardValue == 11);
+		}
+
+		private void CollectCards(Card playedCard, bool isPisti)
 		{
 			TableCardsModel.AddCard(playedCard);
-			AddPoints(CalculatePointsOnTable());
+
+			if (isPisti)
+			{
+				AddPoints(10);
+			}
+			else
+			{
+				AddPoints(CalculatePointsOnTable());
+			}
+
 			ChangeGameState(true, playedCard);
 		}
 
 		private async void ChangeGameState(bool isMatched, Card playedCard)
 		{
+			var isPlayerTurn = GameStateModel.LastPlayerState == GameState.PlayerTurn;
 			bool shouldWait = isMatched;
 
-			if (GameStateModel.LastPlayerState == GameState.PlayerTurn)
+			if (isMatched)
 			{
-				if (isMatched)
-				{
-					CollectCardsSignal.Dispatch(CardOwner.Player);
-					CardsCollectedSignal.AddOnce(() => shouldWait = false);
-				}
-
-				while (shouldWait)
-				{
-					await Task.Delay(250);
-				}
-
-				PlayerHandModel.RemoveCard(playedCard);
-
-				if (DealCards())
-					return;
-
-				ChangeGameStateSignal.Dispatch(GameState.BotTurn);
+				CollectCardsSignal.Dispatch(isPlayerTurn ? CardOwner.Player : CardOwner.Bot);
+				CardsCollectedSignal.AddOnce(() => shouldWait = false);
 			}
-			else if (GameStateModel.LastPlayerState == GameState.BotTurn)
+
+			await WaitForCondition(() => !shouldWait);
+
+			if (isPlayerTurn)
 			{
-				if (isMatched)
-				{
-					CollectCardsSignal.Dispatch(CardOwner.Bot);
-					CardsCollectedSignal.AddOnce(() => shouldWait = false);
-				}
-
-				while (shouldWait)
-				{
-					await Task.Delay(250);
-				}
-
+				PlayerHandModel.RemoveCard(playedCard);
+			}
+			else
+			{
 				BotHandModel.RemoveCard(playedCard);
+			}
 
-				if (DealCards())
-					return;
+			if (!DealCards())
+			{
+				ChangeGameStateSignal.Dispatch(isPlayerTurn ? GameState.BotTurn : GameState.PlayerTurn);
+			}
+		}
 
-				ChangeGameStateSignal.Dispatch(GameState.PlayerTurn);
+		private async Task WaitForCondition(Func<bool> condition)
+		{
+			while (!condition())
+			{
+				await Task.Delay(250);
 			}
 		}
 
@@ -120,12 +101,9 @@ namespace Pisti
 		{
 			if (PlayerHandModel.CardsToPlay.Count == 0 && BotHandModel.CardsToPlay.Count == 0)
 			{
-				// Game Over
-				if(DeckModel.Cards.Count == 0)
+				if (DeckModel.Cards.Count == 0)
 				{
-					GiveCardsOnTableToTheLastCollector();
-					GivePointsPlayerWithMostCards();
-					GameOverSignal.Dispatch(new GameOverSignalData(PlayerHandModel.Points, BotHandModel.Points));
+					EndGame();
 				}
 				else
 				{
@@ -138,13 +116,20 @@ namespace Pisti
 			return false;
 		}
 
+		private void EndGame()
+		{
+			GiveCardsOnTableToTheLastCollector();
+			AwardPointsToPlayerWithMostCards();
+			GameOverSignal.Dispatch(new GameOverSignalData(PlayerHandModel.Points, BotHandModel.Points));
+		}
+
 		private void AddPoints(int points)
 		{
-			if(GameStateModel.LastPlayerState == GameState.PlayerTurn)
+			if (GameStateModel.LastPlayerState == GameState.PlayerTurn)
 			{
 				PlayerHandModel.Points += points;
 			}
-			else if(GameStateModel.LastPlayerState == GameState.BotTurn)
+			else
 			{
 				BotHandModel.Points += points;
 			}
@@ -152,28 +137,18 @@ namespace Pisti
 
 		private int CalculatePointsOnTable()
 		{
-			List<Card> cards = new List<Card>();
-			cards = TableCardsModel.CardsOnTable;
-
 			int points = 0;
 
-			foreach (var card in cards)
+			foreach (var card in TableCardsModel.CardsOnTable)
 			{
-				switch (card.CardValue)
+				points += card.CardValue switch
 				{
-					case 1:
-						points += 1;
-						break;
-					case 2 when card.CardSuit == Constants.Clubs:
-						points += 2;
-						break;
-					case 10 when card.CardSuit == Constants.Diamonds:
-						points += 3;
-						break;
-					case 11:
-						points += 1;
-						break;
-				}
+					1 => 1,
+					2 when card.CardSuit == Constants.Clubs => 2,
+					10 when card.CardSuit == Constants.Diamonds => 3,
+					11 => 1,
+					_ => 0
+				};
 			}
 
 			return points;
@@ -181,29 +156,23 @@ namespace Pisti
 
 		private void GiveCardsOnTableToTheLastCollector()
 		{
-			if(TableCardsModel.CardsOnTable.Count == 0)
-				return;
-
-			if(GameStateModel.LastCardCollector == CardOwner.Player)
+			if (TableCardsModel.CardsOnTable.Count > 0)
 			{
-				CollectCardsSignal.Dispatch(CardOwner.Player);
-			}
-			else if(GameStateModel.LastCardCollector == CardOwner.Bot)
-			{
-				CollectCardsSignal.Dispatch(CardOwner.Bot);
+				CollectCardsSignal.Dispatch(GameStateModel.LastCardCollector);
 			}
 		}
 
-		private void GivePointsPlayerWithMostCards()
+		private void AwardPointsToPlayerWithMostCards()
 		{
-			if(PlayerHandModel.WonCards.Count > BotHandModel.WonCards.Count)
+			if (PlayerHandModel.WonCards.Count > BotHandModel.WonCards.Count)
 			{
 				PlayerHandModel.Points += 3;
 			}
-			else if(PlayerHandModel.WonCards.Count < BotHandModel.WonCards.Count)
+			else if (PlayerHandModel.WonCards.Count < BotHandModel.WonCards.Count)
 			{
 				BotHandModel.Points += 3;
 			}
 		}
+
 	}
 }
