@@ -17,27 +17,39 @@ namespace Pisti
 		{
 			await Task.Delay((int)(1000 * Constants.waitBeforeCollectingCards));
 
-			if(CardOwner == CardOwner.Player)
+			if (CardOwner == CardOwner.Player)
 			{
-				foreach(Card card in TableCardsModel.CardsOnTable)
-				{
-					PlayerHandModel.WonCards.Add(card);
-					MoveCollectedCardsSignal.Dispatch(CardOwner.Player);
-					UpdatePointTextsSignal.Dispatch(new UpdatePointTextsSignalData(CardOwner.Player, PlayerHandModel.Points));
-				}
+				HandleCardCollection(PlayerHandModel, CardOwner.Player);
 			}
-			else
+			else if (CardOwner == CardOwner.Bot)
 			{
-				foreach (Card card in TableCardsModel.CardsOnTable)
-				{
-					BotHandModel.WonCards.Add(card);
-					MoveCollectedCardsSignal.Dispatch(CardOwner.Bot);
-					UpdatePointTextsSignal.Dispatch(new UpdatePointTextsSignalData(CardOwner.Bot, BotHandModel.Points));
-				}
+				HandleCardCollection(BotHandModel, CardOwner.Bot);
 			}
 
 			GameStateModel.LastCardCollector = CardOwner;
 			TableCardsModel.CardsOnTable.Clear();
+		}
+
+		private void HandleCardCollection<T>(T handModel, CardOwner cardOwner) where T : class
+		{
+			if (handModel is IPlayerHandModel playerModel)
+			{
+				foreach (Card card in TableCardsModel.CardsOnTable)
+				{
+					playerModel.WonCards.Add(card);
+					MoveCollectedCardsSignal.Dispatch(cardOwner);
+					UpdatePointTextsSignal.Dispatch(new UpdatePointTextsSignalData(cardOwner, playerModel.Points));
+				}
+			}
+			else if (handModel is IBotHandModel botModel)
+			{
+				foreach (Card card in TableCardsModel.CardsOnTable)
+				{
+					botModel.WonCards.Add(card);
+					MoveCollectedCardsSignal.Dispatch(cardOwner);
+					UpdatePointTextsSignal.Dispatch(new UpdatePointTextsSignalData(cardOwner, botModel.Points));
+				}
+			}
 		}
 	}
 }

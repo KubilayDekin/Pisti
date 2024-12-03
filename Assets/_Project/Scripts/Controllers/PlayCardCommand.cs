@@ -16,28 +16,27 @@ namespace Pisti
 
 		public override void Execute()
 		{
-			if(Data.CardOwner == CardOwner.Player && GameStateModel.GameState == GameState.PlayerTurn)
+			if (IsValidState(Data.CardOwner, GameStateModel.GameState))
 			{
-				Retain();
-
-				GameStateModel.LastPlayerState = GameState.PlayerTurn;
-				ChangeGameStateSignal.Dispatch(GameState.OnHold);
-
-				SendCardToTableSignal.Dispatch(Data.CardView);
-
-				CardReachedToTableSignal.AddListener(OnCardReachedToTable);
+				ProcessCardPlay(Data.CardView, Data.CardOwner);
 			}
-			else if(Data.CardOwner == CardOwner.Bot && GameStateModel.GameState == GameState.BotTurn)
-			{
-				Retain();
+		}
 
-				GameStateModel.LastPlayerState = GameState.BotTurn;
-				ChangeGameStateSignal.Dispatch(GameState.OnHold);
+		private bool IsValidState(CardOwner cardOwner, GameState gameState)
+		{
+			return (cardOwner == CardOwner.Player && gameState == GameState.PlayerTurn) ||
+				   (cardOwner == CardOwner.Bot && gameState == GameState.BotTurn);
+		}
 
-				SendCardToTableSignal.Dispatch(Data.CardView);
+		private void ProcessCardPlay(CardView cardView, CardOwner cardOwner)
+		{
+			Retain();
 
-				CardReachedToTableSignal.AddListener(OnCardReachedToTable);
-			}
+			GameStateModel.LastPlayerState = cardOwner == CardOwner.Player ? GameState.PlayerTurn : GameState.BotTurn;
+			ChangeGameStateSignal.Dispatch(GameState.OnHold);
+
+			SendCardToTableSignal.Dispatch(cardView);
+			CardReachedToTableSignal.AddListener(OnCardReachedToTable);
 		}
 
 		private void OnCardReachedToTable()
