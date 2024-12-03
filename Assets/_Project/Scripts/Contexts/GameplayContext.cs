@@ -29,7 +29,6 @@ namespace Pisti
 		private void BindViews()
 		{
 			mediationBinder.Bind<CardView>().To<CardMediator>();
-			mediationBinder.Bind<PlayerHandView>().To<PlayerHandMediator>();
 			mediationBinder.Bind<BotHandView>().To<BotHandMediator>();
 			mediationBinder.Bind<CardDistributorView>().To<CardDistributorMediator>();
 		}
