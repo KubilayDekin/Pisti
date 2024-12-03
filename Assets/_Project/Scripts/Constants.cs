@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace Pisti
+﻿namespace Pisti
 {
 	public static class Constants
 	{

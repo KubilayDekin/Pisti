@@ -1,7 +1,5 @@
 ﻿using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
-using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

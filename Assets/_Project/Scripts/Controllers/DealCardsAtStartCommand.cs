@@ -1,5 +1,4 @@
 ﻿using strange.extensions.command.impl;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Pisti

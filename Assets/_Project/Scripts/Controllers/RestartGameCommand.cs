@@ -1,6 +1,4 @@
 ﻿using strange.extensions.command.impl;
-using System.Collections;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Pisti
